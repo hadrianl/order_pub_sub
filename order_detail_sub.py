@@ -36,7 +36,7 @@ def order_type_mapping(order_comment):
     else:
         return '平仓'
 
-print('订阅订单变化成功.................')
+print(f'订阅订单变化成功.................{ip}:{port}')
 while True:
     try:
         new_order = socket.recv_pyobj()
@@ -45,23 +45,23 @@ while True:
         if new_order.get('Status') == 1:
             text = f"""{Fore.WHITE}{str(datetime.now()):}{Fore.RESET}
 {Back.BLUE}#{new_order.get('Ticket')}---开仓{Back.RESET}：{new_order}
-            """
+------------------------------------------------------------------------------"""
         elif new_order.get('Status') == 2:
             text = f"""{Fore.WHITE}{str(datetime.now()):}{Fore.RESET}
 {Back.YELLOW}#{new_order.get('Ticket')}---{order_type_mapping(new_order.get('Comment'))}{Back.RESET}：{new_order}
-            """
+------------------------------------------------------------------------------"""
         elif new_order.get('Status') == 0:
             text = f"""{Fore.WHITE}{str(datetime.now()):}{Fore.RESET}
 {Back.BLUE}#{new_order.get('Ticket')}---挂单{Back.RESET}：{new_order}
-            """
+------------------------------------------------------------------------------"""
         elif new_order.get('Status') == -1:
             text = f"""{Fore.WHITE}{str(datetime.now()):}{Fore.RESET}
 {Back.LIGHTWHITE_EX}#{new_order.get('Ticket')}---取消订单{Back.RESET}：{new_order}
-            """
+------------------------------------------------------------------------------"""
         else:
             text = f"""{Fore.WHITE}{str(datetime.now()):}{Fore.RESET}
 {Back.YELLOW}#{new_order.get('Ticket')}---{Back.RESET}：{new_order}
-            """
+------------------------------------------------------------------------------"""
 
         print(text)
     except Exception as e:

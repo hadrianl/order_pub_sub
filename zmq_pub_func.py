@@ -6,6 +6,7 @@
 # @License : (C) Copyright 2013-2017, 凯瑞投资
 
 import zmq
+from datetime import datetime
 
 
 class pub():
@@ -16,6 +17,7 @@ class pub():
 
     def send_changed_order(self, d: dict):
         self.socket.send_pyobj(d)
+        print(str(datetime.now()))
 
     def __enter__(self):
         print('开启订阅推送')

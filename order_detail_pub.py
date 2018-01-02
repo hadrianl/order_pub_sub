@@ -43,6 +43,7 @@ except Exception as e:
 
 with pub(zmq_port) as p:
     print(last_time)
+    print('订阅端口----*:',dbconfig['port'])
     orders_dict = {}
     while True:
         with conn.cursor() as cursor:
@@ -61,7 +62,8 @@ with pub(zmq_port) as p:
                             pass
                         else:
                             p.send_changed_order(d)
-                            print(f'{Back.BLUE}开仓{Back.RESET}------{d}')
+                            print(f'{Back.BLUE}#{d.get("Ticket")}---开仓{Back.RESET}：{d}')
+                            print('------------------------------------------------------------------------------')
 
                 remaining_orders = [str(t) for t,v in orders_dict.items() if v.get('Status') == 1 or v.get('Status') == 0]
                 if remaining_orders:
@@ -74,16 +76,20 @@ with pub(zmq_port) as p:
                             # todo LOG
                             if 'cancelled' in d.get('Comment'):
                                 p.send_changed_order(d)
-                                print(f'{Back.LIGHTWHITE_EX}取消订单{Back.RESET}------{d}')
+                                print(f'{Back.LIGHTWHITE_EX}#{d.get("Ticket")}---取消订单{Back.RESET}：{d}')
+                                print('------------------------------------------------------------------------------')
                             elif '[tp]' in d.get('Comment'):
                                 p.send_changed_order(d)
-                                print(f'{Fore.YELLOW}{Back.RED}止盈{Fore.RESET}{Back.RESET}------{d}')
+                                print(f'{Fore.YELLOW}{Back.RED}#{d.get("Ticket")}---止盈{Fore.RESET}{Back.RESET}：{d}')
+                                print('------------------------------------------------------------------------------')
                             elif '[sl]' in d.get('Comment'):
                                 p.send_changed_order(d)
-                                print(f'{Fore.YELLOW}{Back.GREEN}止损{Fore.RESET}{Back.RESET}------{d}')
+                                print(f'{Fore.YELLOW}{Back.GREEN}#{d.get("Ticket")}---止损{Fore.RESET}{Back.RESET}：{d}')
+                                print('------------------------------------------------------------------------------')
                             else:
                                 p.send_changed_order(d)
-                                print(f'{Back.YELLOW}平仓{Back.RESET}------{d}')
+                                print(f'{Back.YELLOW}#{d.get("Ticket")}---平仓{Back.RESET}：{d}')
+                                print('------------------------------------------------------------------------------')
             except Exception as e:
                 print('推送订单失败:', e)
                 raise e
