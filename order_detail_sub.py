@@ -52,11 +52,11 @@ while True:
             """
         elif new_order.get('Status') == 0:
             text = f"""{Fore.WHITE}{str(datetime.now()):}{Fore.RESET}
-{Back.YELLOW}#{new_order.get('Ticket')}---挂单{Back.RESET}：{new_order}
+{Back.BLUE}#{new_order.get('Ticket')}---挂单{Back.RESET}：{new_order}
             """
         elif new_order.get('Status') == -1:
             text = f"""{Fore.WHITE}{str(datetime.now()):}{Fore.RESET}
-{Back.YELLOW}#{new_order.get('Ticket')}---取消挂单{Back.RESET}：{new_order}
+{Back.LIGHTWHITE_EX}#{new_order.get('Ticket')}---取消订单{Back.RESET}：{new_order}
             """
         else:
             text = f"""{Fore.WHITE}{str(datetime.now()):}{Fore.RESET}
