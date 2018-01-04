@@ -7,16 +7,16 @@
 
 import zmq
 from datetime import datetime
-
+from zmq.asyncio import Context
 
 class pub():
     def __init__(self, port):
-        self.context = zmq.Context()
+        self.context = Context()
         self.socket = self.context.socket(zmq.PUB)
         self.socket.bind(f"tcp://*:{port}")
 
-    def send_changed_order(self, d: dict):
-        self.socket.send_pyobj(d)
+    async def send_changed_order(self, d: dict):
+        await self.socket.send_pyobj(d)
         print(str(datetime.now()))
 
     def __enter__(self):
