@@ -26,6 +26,8 @@ port = port if port else '5000'
 socket.connect(f"tcp://{ip}:{port}")
 socket.setsockopt_string(zmq.SUBSCRIBE, '')
 orders_dict = {}
+
+
 def order_type_mapping(order_comment):
     if 'cancelled' in order_comment:
         return '取消订单'
@@ -35,6 +37,7 @@ def order_type_mapping(order_comment):
         return '止盈'
     else:
         return '平仓'
+
 
 print(f'订阅订单变化成功.................{ip}:{port}')
 while True:
