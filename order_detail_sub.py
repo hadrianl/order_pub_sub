@@ -56,8 +56,7 @@ try:
 except Exception as e:
     logger.exception('订阅接收异常')
     socket.close()
-    df = pd.DataFrame([nd for _, nd in orders_dict.items()])
-    df.to_excel('orders.xlsx')
+    sys.exit()
 except SystemExit:
     print('正向关闭订阅.........')
     socket.close()
